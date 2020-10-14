@@ -11,21 +11,36 @@ use GuzzleHttp\Exception\ClientException;
 
 trait IsRestClient
 {
-   
+	private function connect(){
+		if(!$this->client){
+
+			
+			if($this->debug) Log::debug("MailRelay: Connecting to API:" .$this->api_url);
+
+
+			$this->client = new Client([
+				'base_uri' => $this->api_url
+			]);
+		
+		}
+	}
+	
+
 	private function call($method, $url, $args=[]){
 		$url=ltrim($url,"/");
 		if(!$url) return false;
 
+		$this->connect();
 		
 		//forzar header json
 		if(isset($args["headers"])){
 			$args["headers"]=array_merge($args["headers"],[
-				'X-AUTH-TOKEN' => $this->token,
+				'X-AUTH-TOKEN' => $this->api_key,
 				'Accept'     => 'application/json'
 			]);
 		}else{
 			$args["headers"]=[
-				'X-AUTH-TOKEN' => $this->token,
+				'X-AUTH-TOKEN' => $this->api_key,
 				'Accept'     => 'application/json'
 			];
 		}
@@ -33,7 +48,7 @@ trait IsRestClient
 
 		
 		if($this->debug){
-			Log::debug("MailRelay: Calling $method to url:" .$this->apiurl."".$url);
+			Log::debug("MailRelay: Calling $method to url:" .$this->api_url."".$url);
 			Log::debug("MailRelay: Options:");
 			Log::debug($args);
 		}

@@ -27,7 +27,7 @@ class MailRelayServiceProvider extends ServiceProvider
         
         $this->publishes([
             __DIR__.'/Config/mailrelay-api.php' => config_path('mailrelay.php'),
-¡        ], 'ajtarragona-mailrelay-config');
+        ], 'ajtarragona-mailrelay-config');
 
         
 
