@@ -1,0 +1,35 @@
+{
+    "name": "ajtarragona/mailrelay-client",
+    "description": "Client Laravel de la API Rest de MailRelay",
+    "keywords" : ["laravel5","laravel"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Txomin Medrano Martorell",
+            "email": "tmedrano@tarragona.cat"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.0.0",
+        "laravel/framework": ">=5.6.0",
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ajtarragona\\MailRelay\\": "./src"
+        }
+    },
+    
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ajtarragona\\MailRelay\\MailRelayServiceProvider"
+            ],
+            "aliases": {
+                "MailRelay" : "Ajtarragona\\MailRelay\\Facades\\MailRelay"
+            }
+        }
+    }
+}
