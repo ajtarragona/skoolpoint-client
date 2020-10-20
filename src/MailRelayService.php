@@ -2,6 +2,10 @@
 
 namespace Ajtarragona\MailRelay;
 
+use Ajtarragona\MailRelay\Models\Campaign;
+use Ajtarragona\MailRelay\Models\CustomField;
+use Ajtarragona\MailRelay\Models\Group;
+use Ajtarragona\MailRelay\Models\Sender;
 use Ajtarragona\MailRelay\Traits\IsRestClient;
 use Illuminate\Database\Events\StatementPrepared;
 use Illuminate\Support\Str;
@@ -12,34 +16,23 @@ class MailRelayService
     use IsRestClient;
 
 
-	protected $options;
-	protected $client;
-	protected $api_url;
-	protected $api_key;
-	
-
-
-	public function __construct($options=array()) { 
-		$opts=config('mailrelay');
-		if($options) $opts=array_merge($opts,$options);
-		$this->options= json_decode(json_encode($opts), FALSE);
-        // dump($this->options);
-		$this->debug = $this->options->debug;
-		$this->api_url = rtrim($this->options->api_url,"/")."/"; //le quito la barra final si la tiene y se la vuelvo a poner. Asi me aseguro que siempre acaba en barra.
-		$this->api_key = $this->options->api_key;
-        
-	}
-
-
-
 
 
     /**
      * Retorna todos los remitentes
      */
 	public function getSenders(){
-		$ret=$this->call('GET','senders');
-		return $ret;
+        return Sender::all();
+		
+    }
+
+    
+    /**
+     * Retorna un remitente
+     */
+	public function getSender($id){
+        return Sender::find($id);
+		
     }
 
     
@@ -47,28 +40,35 @@ class MailRelayService
     /**
      * Añade un remitente
      */
-	public function addSender($name, $email){
-		$ret=$this->call('POST','senders',[
-            "json" => [
-                "name" => $name,
-                "from_name" => $name,
-                "email" => $email
-            ]
+	public function createSender($name, $email){
+		return Sender::create([
+            "name" => $name,
+            "from_name" => $name,
+            "email" => $email
         ]);
-		return $ret;
+        
     }
     
+
+
+
 
     /**
      * Retorna todos los custom_fields de Mailrelay
      */
     public function getCustomFields(){
-		$ret=$this->call('GET','custom_fields');
-		return $ret;
+		return CustomField::all();
+		
     }
     
 
-    
+    /**
+     * Retorna un custom_fields
+     */
+	public function getCustomField($id){
+        return CustomField::find($id);
+		
+    }
 
 
     /**
@@ -80,7 +80,7 @@ class MailRelayService
      * En caso de ser select, select_multiple, checkbox o radio_buttons
      * $options es un array con los nombres de las opciones
      */
-	public function addCustomField($name, $label, $type="text", $required=false, $default_value="", $options=[]){
+	public function createCustomField($name, $label, $type="text", $required=false, $default_value="", $options=[]){
         
         $preparedOptions=[];
         if($options){
@@ -90,20 +90,88 @@ class MailRelayService
         }
 
 
-        $ret=$this->call('POST','custom_fields',[
-            "json" => [
-                "label" => $label,
-                "tag_name" => Str::snake($name),
-                "field_type" => $type, //(text, textarea, number, select, select_multiple, checkbox, radio_buttons, date
-                "required" => $required,
-                "default_value" => $default_value,
-                "custom_field_options_attributes" => $preparedOptions
-            ]
+        return CustomField::create([
+            "label" => $label,
+            "tag_name" => Str::snake($name),
+            "field_type" => $type, //(text, textarea, number, select, select_multiple, checkbox, radio_buttons, date
+            "required" => $required,
+            "default_value" => $default_value,
+            "custom_field_options_attributes" => $preparedOptions
         ]);
-		return $ret;
+        
+        
     }
 
 
+
+
+
+
+    
+    /**
+     * Retorna todos los grupos
+     */
+	public function getGroups(){
+        return Group::all();
+		
+    }
+
+    
+    /**
+     * Retorna un grupo
+     */
+	public function getGroup($id){
+        return Group::find($id);
+		
+    }
+
+    
+
+    /**
+     * Añade un grupo
+     */
+	public function createGroup($name, $description=null){
+		return Group::create([
+            "name" => $name,
+            "description" => $description
+        ]);
+        
+    }
+    
+
+
+     /**
+     * Retorna todoslos boletines
+     */
+	public function getCampaigns(){
+        return Campaign::all();
+		
+    }
+
+    
+    /**
+     * Retorna un boletin
+     */
+	public function getCampaign($id){
+        return Campaign::find($id);
+		
+    }
+
+    
+
+    /**
+     * Añade un boletin
+     */
+	public function createCampaign($subject, $body, $sender_id, $group_ids=[], $target="groups", $attributes=[]){
+		return Campaign::create(array_merge([
+            "subject" => $subject,
+            "html" => $body,
+            "sender_id" => $sender_id,
+            "group_ids" => $group_ids,
+            "target" => $target,
+        ], $attributes));
+        
+    }
     
 
 
