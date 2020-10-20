@@ -1,5 +1,5 @@
 # Mailrelay Laravel Client
-Client Laravel de la API Rest de MailRelay.
+Cliente Laravel de la API Rest de MailRelay.
 
 *Credits*: Ajuntament de Tarragona.
 
@@ -37,7 +37,7 @@ Client Laravel de la API Rest de MailRelay.
 
 ## Instalación
 ```bash
-composer require ajtarragona/mailrelay-client:"@dev"
+composer require ajtarragona/mailrelay-client
 ``` 
 
 ## Configuración
@@ -74,17 +74,18 @@ public  function  test(){
  ```php
 'aliases'  =>  [
     ...
-    'MailRelay'  =>  Ajtarragona\Censat\Facades\MailRelay::class
+    'MailRelay'  =>  Ajtarragona\MailRelay\Facades\MailRelay::class
 ]
 ```
 
   
 
 **Vía Inyección de dependencias:**
+
 En tus controladores, helpers, modelo...
 
 ```php
-use Ajtarragona\Censat\MailRelayService;
+use Ajtarragona\MailRelay\MailRelayService;
 ...
 
 public  function  test(MailRelayService  $mailrelay){
@@ -94,6 +95,7 @@ public  function  test(MailRelayService  $mailrelay){
 ```
 
 **Vía función `helper`:**
+
 ```php
 ...
 public  function  test(){
