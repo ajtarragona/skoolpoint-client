@@ -18,6 +18,7 @@ trait IsRestClient
 	protected $options;
 	protected $api_url;
 	protected $api_key;
+	protected $debug;
 	
 
 
@@ -48,7 +49,7 @@ trait IsRestClient
 	}
 	
 
-	private function call($method, $url, $args=[]){
+	protected function call($method, $url, $args=[]){
 		$url=ltrim($url,"/");
 		if(!$url) return false;
 

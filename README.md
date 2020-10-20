@@ -12,25 +12,40 @@ Cliente Laravel de la API Rest de MailRelay.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Instalación](#instalacin)
+- [Instalación](#instalaci%C3%B3n)
 - [Configuración](#configuraci%C3%B3n)
 - [Uso](#uso)
   - [Funciones](#funciones)
-    - [getSenders()](#getsenders)
+    - [getSenders($page=null, $per_page=null)](#getsenderspagenull-per_pagenull)
     - [getSender($id)](#getsenderid)
+    - [getDefaultSender()](#getdefaultsender)
     - [createSender($name, $email)](#createsendername-email)
-    - [getCustomFields()](#getcustomfields)
+    - [getCustomFields($page=null, $per_page=null)](#getcustomfieldspagenull-per_pagenull)
     - [getCustomField($id)](#getcustomfieldid)
     - [createCustomField($name, $label, $type="text", $required=false, $default_value="", $options=[])](#createcustomfieldname-label-typetext-requiredfalse-default_value-options)
-    - [getGroups()](#getgroups)
+    - [getGroups($page=null, $per_page=null)](#getgroupspagenull-per_pagenull)
     - [getGroup($id)](#getgroupid)
     - [createGroup($name, $description=null)](#creategroupname-descriptionnull)
-    - [getCampaigns()](#getcampaigns)
+    - [getCampaigns($page=null, $per_page=null)](#getcampaignspagenull-per_pagenull)
     - [getCampaign($id)](#getcampaignid)
     - [createCampaign($subject, $body, $sender_id, $group_ids=[], $target="groups", $attributes=[])](#createcampaignsubject-body-sender_id-group_ids-targetgroups-attributes)
-  - [Clase RestModel](#clase-restmodel)
-    - [delete()](#delete)
-    - [update($attributes=[])](#updateattributes)
+    - [getCampaignFolders($page=null, $per_page=null)](#getcampaignfolderspagenull-per_pagenull)
+    - [getCampaignFolder($id)](#getcampaignfolderid)
+    - [createCampaignFolder($name)](#createcampaignfoldername)
+    - [getImports($page=null, $per_page=null)](#getimportspagenull-per_pagenull)
+    - [getImport($id)](#getimportid)
+    - [createImport($attributes)](#createimportattributes)
+  - [Clases](#clases)
+    - [Clase RestModel](#clase-restmodel)
+      - [delete()](#delete)
+      - [update($attributes=[])](#updateattributes)
+    - [Clase Sender](#clase-sender)
+      - [sendConfirmationMail()](#sendconfirmationmail)
+    - [Clase Campaign](#clase-campaign)
+      - [send()](#send)
+    - [Clase Import](#clase-import)
+      - [data()](#data)
+      - [cancel()](#cancel)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -46,6 +61,7 @@ Puedes configurar el paquete a través del archivo `.env` de tu aplicación Lara
 ```bash
 MAILRELAY_API_URL
 MAILRELAY_API_KEY
+MAILRELAY_DEBUG
 ```
 
 Alternativamente, puedes publicar en archivo de configuración a través del comando:
@@ -109,21 +125,27 @@ public  function  test(){
 
 ### Funciones
 
-#### getSenders()
+#### getSenders($page=null, $per_page=null)
 Retorna todos los remitentes. 
 
-Un remitente es un objeto de la clase `Sender`, que hereda de la clase [RestModel](#clase-restmodel)
+- `$page`: numero de pàgina (opcional)
+- `$per_page`: registres per pàgina (opcional)
+	
+Un remitente es un objeto de la clase [Sender](#clase-sender)
     
 #### getSender($id)
 Retorna un remitente
-        
+    
+#### getDefaultSender()
+Retorna el remitente por defecto
+         
 #### createSender($name, $email)
 Añade un remitente
 
 - `$name`: nombre del remitente 
 - `$email`: email del remitente 
 		
-#### getCustomFields()
+#### getCustomFields($page=null, $per_page=null)
 Retorna todos los custom_fields de Mailrelay.
 
 Un custom_fields es un objeto de la clase `CustomField`, que hereda de la clase [RestModel](#clase-restmodel)
@@ -145,7 +167,7 @@ En caso de ser select, select_multiple, checkbox o radio_buttons:
 - `$options` es un array con los nombres de las opciones
 
 
-#### getGroups()
+#### getGroups($page=null, $per_page=null)
 Retorna todos los grupos.
 
 Un grupo es un objeto de la clase `Group`, que hereda de la clase [RestModel](#clase-restmodel)
@@ -158,10 +180,10 @@ Retorna un grupo
 #### createGroup($name, $description=null)
 Añade un grupo
 		
-#### getCampaigns()
+#### getCampaigns($page=null, $per_page=null)
 Retorna todos los boletines.
 
-Un boletín es un objeto de la clase `Campaign`, que hereda de la clase [RestModel](#clase-restmodel)
+Un boletín es un objeto de la clase [Campaign](#clase-campaign)
 
 
 #### getCampaign($id)
@@ -178,30 +200,97 @@ Añade un boletin
 - `$attributes` Array con otros atributos opcionales que pasaremos a la API MailRelay.
 
 
+		
+#### getCampaignFolders($page=null, $per_page=null)
+Retorna todas las carpetas de boletín.
+
+#### getCampaignFolder($id)
+Retorna una carpeta de boletín
+       
+#### createCampaignFolder($name)
+Añade una carpeta de boletín
+
+- `$name` Nombre de la carpeta
+
+
+		
+#### getImports($page=null, $per_page=null)
+Retorna todas las importaciones.
+
+Una importacion es un objeto de la clase [Import](#clase-import)
+
+
+#### getImport($id)
+Retorna una importacion
+       
+#### createImport($attributes)
+Añade una importacion
+
+- `$attributes` Atributos de la importación
+
 
 
 ---
 
-### Clase RestModel
+### Clases
+
+#### Clase RestModel
 Los objetos que devuelve la API se devuelven como instancias de la clase RestModel.
 
 Sobre estos objetos podemos invocar los siguientes métodos:
 
-#### delete()
+##### delete()
 Eliminará el objeto de MailRelay
 ```php
-$sender=MailRelay::getSender($id);
+$sender=MailRelay::getSender(2);
 $sender->delete();
 ```
 
-#### update($attributes=[])
+##### update($attributes=[])
 Modificará los atributos pasados
 ```php
-$sender=MailRelay::getSender($id);
+$sender=MailRelay::getSender(2);
 $sender->update([
     "name"=>"Nuevo nombre"
 ]);
 ```
 
+
+#### Clase Sender
+Hereda de la clase [RestModel](#clase-restmodel)
+
+Métodos:
+##### sendConfirmationMail()
+Envía el mail de confirmación al remitente
+```php
+$sender=MailRelay::getSender(2);
+$sender->sendConfirmationMail();
+```
+
+
+
+
+#### Clase Campaign
+Hereda de la clase [RestModel](#clase-restmodel)
+
+Métodos:
+##### send()
+Envía el boletín
+```php
+$boletin=MailRelay::getCampaign(5);
+$boletin->send();
+```
+
+
+
+#### Clase Import
+Hereda de la clase [RestModel](#clase-restmodel)
+
+Métodos:
+##### data()
+Devuelve los datos de la importación
+
+##### cancel()
+Cancela una importación si está en curso
 
 

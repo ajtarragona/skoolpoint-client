@@ -3,8 +3,10 @@
 namespace Ajtarragona\MailRelay;
 
 use Ajtarragona\MailRelay\Models\Campaign;
+use Ajtarragona\MailRelay\Models\CampaignFolder;
 use Ajtarragona\MailRelay\Models\CustomField;
 use Ajtarragona\MailRelay\Models\Group;
+use Ajtarragona\MailRelay\Models\Import;
 use Ajtarragona\MailRelay\Models\Sender;
 use Ajtarragona\MailRelay\Traits\IsRestClient;
 use Illuminate\Database\Events\StatementPrepared;
@@ -21,8 +23,8 @@ class MailRelayService
     /**
      * Retorna todos los remitentes
      */
-	public function getSenders(){
-        return Sender::all();
+	public function getSenders($page=null, $per_page=null){
+        return Sender::all($page, $per_page);
 		
     }
 
@@ -32,6 +34,13 @@ class MailRelayService
      */
 	public function getSender($id){
         return Sender::find($id);
+		
+    }
+    /**
+     * Retorna el remitente por defecto
+     */
+	public function getDefaultSender(){
+        return Sender::getDefaultSender();
 		
     }
 
@@ -56,8 +65,8 @@ class MailRelayService
     /**
      * Retorna todos los custom_fields de Mailrelay
      */
-    public function getCustomFields(){
-		return CustomField::all();
+    public function getCustomFields($page=null, $per_page=null){
+		return CustomField::all($page, $per_page);
 		
     }
     
@@ -111,8 +120,8 @@ class MailRelayService
     /**
      * Retorna todos los grupos
      */
-	public function getGroups(){
-        return Group::all();
+	public function getGroups($page=null, $per_page=null){
+        return Group::all($page, $per_page);
 		
     }
 
@@ -143,8 +152,8 @@ class MailRelayService
      /**
      * Retorna todoslos boletines
      */
-	public function getCampaigns(){
-        return Campaign::all();
+	public function getCampaigns($page=null, $per_page=null){
+        return Campaign::all($page, $per_page);
 		
     }
 
@@ -174,5 +183,74 @@ class MailRelayService
     }
     
 
+
+     /**
+     * Retorna todas las carpetas de boletin
+     */
+	public function getCampaignFolders($page=null, $per_page=null){
+        return CampaignFolder::all($page, $per_page);
+		
+    }
+
+    
+    /**
+     * Retorna una carpeta de boletin
+     */
+	public function getCampaignFolder($id){
+        return CampaignFolder::find($id);
+		
+    }
+
+    
+
+    /**
+     * Añade una carpeta de boletin
+     */
+	public function createCampaignFolder($name){
+		return CampaignFolder::create([
+            "name" => $name
+        ]);
+        
+    }
+
+
+     /**
+     * Retorna todas las importaciones
+     */
+	public function getImports($page=null, $per_page=null){
+        return Import::all($page, $per_page);
+		
+    }
+
+    
+    /**
+     * Retorna una importacion
+     */
+	public function getImport($id){
+        return Import::find($id);
+		
+    }
+
+    
+
+    /**
+     * Añade una importacion
+     */
+	public function createImport($attributes=[]){
+        
+        //TODO: preparar los parámetros
+        
+		return Import::create(array_merge([
+            "file" => "",
+            "content" =>"",
+            "existing_subscribers" => "ignore" , // enum:(ignore, replace)	
+            "callback_url" => null,	
+            "import_fields_attribute" => [], 
+            "group_ids" => []
+        ], $attributes));
+        
+    }
+
+    
 
 }

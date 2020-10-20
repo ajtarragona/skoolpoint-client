@@ -3,6 +3,7 @@
 namespace Ajtarragona\MailRelay\Models;
 
 use Ajtarragona\MailRelay\Traits\IsRestClient;
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 
 class RestModel
@@ -18,12 +19,14 @@ class RestModel
     //atributos rellenables en el update o create
     protected $fillable = [];
 
+    protected $dates = ["created_at","updated_at"];
+
 
     protected static function castAll($array){
-        $ret=[];
+        $ret=collect();
         if($array && is_array($array)) {
             foreach($array as $item){
-                $ret[]=self::cast($item);
+                $ret->push(self::cast($item));
             }
         }
         return $ret;
@@ -37,6 +40,11 @@ class RestModel
         $model=new static;
         foreach($model->attributes as $attribute){
             $model->{$attribute} = $object->{$attribute} ?? null;
+            
+            //parseo las fechas
+            if($model->{$attribute} && in_array($attribute, $model->dates)){
+                $model->{$attribute} = Carbon::parse($model->{$attribute});
+            }
         }
         return $model;
     }
@@ -57,9 +65,31 @@ class RestModel
 
 
     
-    public static function all(){
+    public static function all($page=null, $per_page=null){
         $model=new static;
-        $ret=$model->call('GET',$model->model_name);
+        $ret=$model->call('GET',$model->model_name,[
+            'form_params' => [
+                'page' => $page ,
+                'per_page' => $per_page
+            ]
+        ]);
+		return self::castAll($ret);
+    }
+
+
+
+    /**
+     * Busca mediante parámetros 
+     */
+    public static function search($parameters=[], $page=null, $per_page=null){
+        $model=new static;
+        $ret=$model->call('GET',$model->model_name,[
+            'form_params' => [
+                'q' => $parameters,
+                'page' => $page ,
+                'per_page' => $per_page
+            ]
+        ]);
 		return self::castAll($ret);
     }
 
@@ -74,7 +104,7 @@ class RestModel
 
 
 
-    public static function create(array $values=null){
+    public static function create(array $values=[]){
         $model=new static;
         
         $args=$model->prepareArguments($values);
@@ -87,7 +117,7 @@ class RestModel
 
 
 
-    public function update(array $values=null){
+    public function update(array $values=[]){
         return self::updateStatic($this->{$this->pk}, $values );
     }
 
@@ -103,14 +133,15 @@ class RestModel
 
 
 
-    public function delete(array $values=null){
+    public function delete(array $values=[]){
         return self::destroy($this->{$this->pk}, $values );
     }
 
 
-    public static function destroy($id, array $values=null){
+    public static function destroy($id, array $values=[]){
         $model=new static;
         $args=$model->prepareArguments($values);
+        // dump($args);
         $ret=$model->call('DELETE',$model->model_name.'/'.$id, $args);
         
         //nul serà si no troba l'ID
