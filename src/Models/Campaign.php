@@ -28,9 +28,15 @@ class Campaign extends RestModel
           "callback_url" =>	null
           ],$attributes);
 
-         $ret=$this->call('POST', $this->model_name.'/'.$this->id.'/send_all', $args);
-  
-         return self::cast($ret);
+         if(isset($args["target"]) && $args["target"] && isset($args["group_ids"]) && $args["group_ids"] ){
+            $ret=$this->call('POST', $this->model_name.'/'.$this->id.'/send_all', [
+               "json" =>$args 
+            ]);
+   
+            return self::cast($ret);
+         }
+
+         return false;
   
       }
 }
