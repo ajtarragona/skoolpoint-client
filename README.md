@@ -232,6 +232,23 @@ Añade una importacion
 - `$callback`     url
 - `$ignore`       by default existing users will be ignored
 
+
+```php
+MailRelay::createImport("prueba api",[
+  [
+    "name"=>"juan",
+    "email"=>"juan2@txomin.com",
+    "custom_field_17"=>"a"
+  ],
+  [
+    "name"=>"Luis d'Àvila",
+    "email"=>"luis2@txomin.com",
+    "custom_field_17"=>"bb"
+  ]
+],[13]);
+
+```
+
 ---
 
 ### Clases
