@@ -34,7 +34,7 @@ Cliente Laravel de la API Rest de MailRelay.
     - [createCampaignFolder($name)](#createcampaignfoldername)
     - [getImports($page=null, $per_page=null)](#getimportspagenull-per_pagenull)
     - [getImport($id)](#getimportid)
-    - [createImport($attributes)](#createimportattributes)
+    - [createImport($filename, $subscribers, $group_ids=[], $callback=null, $ignore=true)](#createimportfilename-subscribers-group_ids-callbacknull-ignoretrue)
   - [Clases](#clases)
     - [Clase RestModel](#clase-restmodel)
       - [delete()](#delete)
