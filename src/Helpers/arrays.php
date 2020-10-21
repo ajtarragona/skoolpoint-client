@@ -48,3 +48,20 @@ if (! function_exists('to_array_first')) {
 	}
 }
 
+
+if(!function_exists('array_to_csv'))
+{
+    function array_to_csv($input, $delimiter = ',', $enclosure = '"')
+    {
+        $out = "";
+		foreach($input as $arr) {
+			$row=[];
+			foreach($arr as $col){
+				$row[]= $enclosure. str_replace($enclosure, "\\".$enclosure, $col) .$enclosure;
+			}
+			
+			$out.= implode($delimiter,$row). PHP_EOL;
+		}
+		return $out;
+    }
+ }

@@ -223,12 +223,14 @@ Una importacion es un objeto de la clase [Import](#clase-import)
 #### getImport($id)
 Retorna una importacion
        
-#### createImport($attributes)
+#### createImport($filename, $subscribers, $group_ids=[], $callback=null, $ignore=true)
 Añade una importacion
 
-- `$attributes` Atributos de la importación
-
-
+- `$filename`     name of the file created in MailRelay
+- `$subscribers`  must be an array of subscribers. Each row must have the same key=>value fields. Custom fields key shold be: `custom_field_ID`
+- `$group_ids`    array of group IDs the users will be subscribed to
+- `$callback`     url
+- `$ignore`       by default existing users will be ignored
 
 ---
 

@@ -236,20 +236,10 @@ class MailRelayService
     /**
      * Añade una importacion
      */
-	public function createImport($attributes=[]){
-        
-        //TODO: preparar los parámetros
-        
-		return Import::create(array_merge([
-            "file" => "",
-            "content" =>"",
-            "existing_subscribers" => "ignore" , // enum:(ignore, replace)	
-            "callback_url" => null,	
-            "import_fields_attribute" => [], 
-            "group_ids" => []
-        ], $attributes));
-        
+	public function createImport($filename, $subscribers, $group_ids=[], $callback=null, $ignore=true){
+    	return Import::doCreate($filename, $subscribers, $group_ids, $callback, $ignore);
     }
+
 
     
 
