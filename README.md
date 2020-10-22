@@ -16,43 +16,56 @@ Cliente Laravel de la API Rest de MailRelay.
 - [Configuración](#configuraci%C3%B3n)
 - [Uso](#uso)
   - [Funciones](#funciones)
-    - [getSenders($page=null, $per_page=null)](#getsenderspagenull-per_pagenull)
-    - [getSender($id)](#getsenderid)
-    - [getDefaultSender()](#getdefaultsender)
-    - [createSender($name, $email)](#createsendername-email)
-    - [getCustomFields($page=null, $per_page=null)](#getcustomfieldspagenull-per_pagenull)
-    - [getCustomField($id)](#getcustomfieldid)
-    - [createCustomField($name, $label, $type="text", $required=false, $default_value="", $options=[])](#createcustomfieldname-label-typetext-requiredfalse-default_value-options)
-    - [getGroups($page=null, $per_page=null)](#getgroupspagenull-per_pagenull)
-    - [getGroup($id)](#getgroupid)
-    - [createGroup($name, $description=null)](#creategroupname-descriptionnull)
-    - [getCampaigns($page=null, $per_page=null)](#getcampaignspagenull-per_pagenull)
-    - [getCampaign($id)](#getcampaignid)
-    - [createCampaign($subject, $body, $sender_id, $group_ids=[], $target="groups", $attributes=[])](#createcampaignsubject-body-sender_id-group_ids-targetgroups-attributes)
-    - [getCampaignFolders($page=null, $per_page=null)](#getcampaignfolderspagenull-per_pagenull)
-    - [getCampaignFolder($id)](#getcampaignfolderid)
-    - [createCampaignFolder($name)](#createcampaignfoldername)
-    - [getImports($page=null, $per_page=null)](#getimportspagenull-per_pagenull)
-    - [getImport($id)](#getimportid)
-    - [createImport($filename, $subscribers, $group_ids=[], $callback=null, $ignore=true)](#createimportfilename-subscribers-group_ids-callbacknull-ignoretrue)
-    - [getMediaFiles($page=null, $per_page=null){](#getmediafilespagenull-per_pagenull)
-    - [getMediaFile($id){](#getmediafileid)
-    - [createMediaFile($filename, $content, $media_folder_id=false){](#createmediafilefilename-content-media_folder_idfalse)
-    - [uploadMediaFile($filename, $uploaded_file, $media_folder_id=0){](#uploadmediafilefilename-uploaded_file-media_folder_id0)
-    - [getMediaFolders(){](#getmediafolders)
-    - [getMediaFolder($id){](#getmediafolderid)
-    - [createMediaFolder($name){](#createmediafoldername)
+    - [Senders (Remitentes)](#senders-remitentes)
+      - [getSenders($page=null, $per_page=null)](#getsenderspagenull-per_pagenull)
+      - [getSender($id)](#getsenderid)
+      - [getDefaultSender()](#getdefaultsender)
+      - [createSender($name, $email)](#createsendername-email)
+    - [Custom Fields](#custom-fields)
+      - [getCustomFields($page=null, $per_page=null)](#getcustomfieldspagenull-per_pagenull)
+      - [getCustomField($id)](#getcustomfieldid)
+      - [createCustomField($name, $label, $type="text", $required=false, $default_value="", $options=[])](#createcustomfieldname-label-typetext-requiredfalse-default_value-options)
+    - [Groups](#groups)
+      - [getGroups($page=null, $per_page=null)](#getgroupspagenull-per_pagenull)
+      - [getGroup($id)](#getgroupid)
+      - [createGroup($name, $description=null)](#creategroupname-descriptionnull)
+    - [Campaigns (Boletines)](#campaigns-boletines)
+      - [getCampaigns($page=null, $per_page=null)](#getcampaignspagenull-per_pagenull)
+      - [getCampaign($id)](#getcampaignid)
+      - [createCampaign($subject, $body, $sender_id, $group_ids=[], $target="groups", $attributes=[])](#createcampaignsubject-body-sender_id-group_ids-targetgroups-attributes)
+    - [Campaign Folders](#campaign-folders)
+      - [getCampaignFolders($page=null, $per_page=null)](#getcampaignfolderspagenull-per_pagenull)
+      - [getCampaignFolder($id)](#getcampaignfolderid)
+      - [createCampaignFolder($name)](#createcampaignfoldername)
+    - [Imports](#imports)
+      - [getImports($page=null, $per_page=null)](#getimportspagenull-per_pagenull)
+      - [getImport($id)](#getimportid)
+      - [createImport($filename, $subscribers, $group_ids=[], $callback=null, $ignore=true)](#createimportfilename-subscribers-group_ids-callbacknull-ignoretrue)
+    - [Media Files](#media-files)
+      - [getMediaFiles($page=null, $per_page=null)](#getmediafilespagenull-per_pagenull)
+      - [getMediaFile($id){](#getmediafileid)
+      - [createMediaFile($filename, $content, $media_folder_id=false)](#createmediafilefilename-content-media_folder_idfalse)
+      - [uploadMediaFile($filename, $uploaded_file, $media_folder_id=0)](#uploadmediafilefilename-uploaded_file-media_folder_id0)
+    - [Media Folders](#media-folders)
+      - [getMediaFolders(){](#getmediafolders)
+      - [getMediaFolder($id){](#getmediafolderid)
+      - [createMediaFolder($name){](#createmediafoldername)
   - [Clases](#clases)
     - [Clase RestModel](#clase-restmodel)
       - [delete()](#delete)
       - [update($attributes=[])](#updateattributes)
+    - [Clase CustomField](#clase-customfield)
     - [Clase Sender](#clase-sender)
       - [sendConfirmationMail()](#sendconfirmationmail)
+    - [Clase Group](#clase-group)
     - [Clase Campaign](#clase-campaign)
       - [send()](#send)
+    - [Clase CampaignFolder](#clase-campaignfolder)
     - [Clase Import](#clase-import)
       - [data()](#data)
       - [cancel()](#cancel)
+    - [Clase MediaFile](#clase-mediafile)
+    - [Clase MediaFolder](#clase-mediafolder)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -132,36 +145,44 @@ public  function  test(){
 
 ### Funciones
 
-#### getSenders($page=null, $per_page=null)
+#### Senders (Remitentes)
+Un remitente es un objeto de la clase [Sender](#clase-sender)
+
+##### getSenders($page=null, $per_page=null)
 Retorna todos los remitentes. 
 
 - `$page`: numero de pàgina (opcional)
 - `$per_page`: registres per pàgina (opcional)
 	
-Un remitente es un objeto de la clase [Sender](#clase-sender)
     
-#### getSender($id)
+##### getSender($id)
 Retorna un remitente
     
-#### getDefaultSender()
+##### getDefaultSender()
 Retorna el remitente por defecto
          
-#### createSender($name, $email)
+##### createSender($name, $email)
 Añade un remitente
 
 - `$name`: nombre del remitente 
 - `$email`: email del remitente 
-		
-#### getCustomFields($page=null, $per_page=null)
+
+
+
+
+
+#### Custom Fields
+Un custom field es un objeto de la clase [CustomField](#clase-customfield)
+
+##### getCustomFields($page=null, $per_page=null)
 Retorna todos los custom_fields de Mailrelay.
 
-Un custom_fields es un objeto de la clase `CustomField`, que hereda de la clase [RestModel](#clase-restmodel)
 		
-#### getCustomField($id)
+##### getCustomField($id)
 Retorna un custom_fields
         
 
-#### createCustomField($name, $label, $type="text", $required=false, $default_value="", $options=[])
+##### createCustomField($name, $label, $type="text", $required=false, $default_value="", $options=[])
 Añade un custom field a mailrelay.
 
 - `$name`: nombre corto interno
@@ -174,29 +195,41 @@ En caso de ser select, select_multiple, checkbox o radio_buttons:
 - `$options` es un array con los nombres de las opciones
 
 
-#### getGroups($page=null, $per_page=null)
+
+
+
+#### Groups
+Un grupo es un objeto de la clase [Group](#clase-group)
+
+##### getGroups($page=null, $per_page=null)
 Retorna todos los grupos.
 
-Un grupo es un objeto de la clase `Group`, que hereda de la clase [RestModel](#clase-restmodel)
-
       
-#### getGroup($id)
+##### getGroup($id)
 Retorna un grupo
       
       
-#### createGroup($name, $description=null)
+##### createGroup($name, $description=null)
 Añade un grupo
 		
-#### getCampaigns($page=null, $per_page=null)
-Retorna todos los boletines.
 
+
+
+
+
+#### Campaigns (Boletines)
 Un boletín es un objeto de la clase [Campaign](#clase-campaign)
 
 
-#### getCampaign($id)
+##### getCampaigns($page=null, $per_page=null)
+Retorna todos los boletines.
+
+
+
+##### getCampaign($id)
 Retorna un boletin
        
-#### createCampaign($subject, $body, $sender_id, $group_ids=[], $target="groups", $attributes=[])
+##### createCampaign($subject, $body, $sender_id, $group_ids=[], $target="groups", $attributes=[])
 Añade un boletin
 
 - `$subject` Asunto
@@ -207,30 +240,41 @@ Añade un boletin
 - `$attributes` Array con otros atributos opcionales que pasaremos a la API MailRelay.
 
 
-		
-#### getCampaignFolders($page=null, $per_page=null)
+
+
+
+#### Campaign Folders
+Una carpeta es un objeto de la clase [CampaignFolder](#clase-campaignfolder)
+
+##### getCampaignFolders($page=null, $per_page=null)
 Retorna todas las carpetas de boletín.
 
-#### getCampaignFolder($id)
+##### getCampaignFolder($id)
 Retorna una carpeta de boletín
        
-#### createCampaignFolder($name)
+##### createCampaignFolder($name)
 Añade una carpeta de boletín
 
 - `$name` Nombre de la carpeta
 
 
-		
-#### getImports($page=null, $per_page=null)
-Retorna todas las importaciones.
 
+
+
+
+
+#### Imports
 Una importacion es un objeto de la clase [Import](#clase-import)
 
+##### getImports($page=null, $per_page=null)
+Retorna todas las importaciones.
 
-#### getImport($id)
+
+
+##### getImport($id)
 Retorna una importacion
        
-#### createImport($filename, $subscribers, $group_ids=[], $callback=null, $ignore=true)
+##### createImport($filename, $subscribers, $group_ids=[], $callback=null, $ignore=true)
 Añade una importacion
 
 - `$filename`     name of the file created in MailRelay
@@ -258,29 +302,44 @@ MailRelay::createImport("prueba api",[
 
 
 
-####  getMediaFiles($page=null, $per_page=null){
+
+
+
+#### Media Files
+Un media file es un objeto de la clase [MediaFile](#clase-mediafile)
+
+#####  getMediaFiles($page=null, $per_page=null)
 Retorna todas las imagenes  
   
-####  getMediaFile($id){
+#####  getMediaFile($id){
 Retorna una imagen
   
 
-####  createMediaFile($filename, $content, $media_folder_id=false){
+#####  createMediaFile($filename, $content, $media_folder_id=false)
 Añade una imagen
 - `$filename`   Nombre de la imagen
 - `$content`    Contenido biario de la imagen (no base64)
     
-    
-####  uploadMediaFile($filename, $uploaded_file, $media_folder_id=0){
+
+#####  uploadMediaFile($filename, $uploaded_file, $media_folder_id=0)
 Añade una imagen a partir de un upload
-  
-####  getMediaFolders(){
+
+
+
+
+
+
+
+#### Media Folders
+Un media folder es un objeto de la clase [MediaFolder](#clase-mediafolder)
+
+#####  getMediaFolders(){
 Retorna las carpetas de media
     
-####  getMediaFolder($id){
+#####  getMediaFolder($id){
 Retorna una carpeta de media
       
-####  createMediaFolder($name){
+#####  createMediaFolder($name){
 Añade una carpeta de media.
 
 Si ya existe con el mismo nombre, la devuelve
@@ -291,8 +350,7 @@ Si ya existe con el mismo nombre, la devuelve
 ### Clases
 
 #### Clase RestModel
-Los objetos que devuelve la API se devuelven como instancias de la clase RestModel.
-
+Los objetos que devuelve la API se devuelven como instancias de la clase `RestModel`.
 Sobre estos objetos podemos invocar los siguientes métodos:
 
 ##### delete()
@@ -312,6 +370,10 @@ $sender->update([
 ```
 
 
+#### Clase CustomField
+Hereda de la clase [RestModel](#clase-restmodel)
+
+
 #### Clase Sender
 Hereda de la clase [RestModel](#clase-restmodel)
 
@@ -323,6 +385,9 @@ $sender=MailRelay::getSender(2);
 $sender->sendConfirmationMail();
 ```
 
+
+#### Clase Group
+Hereda de la clase [RestModel](#clase-restmodel)
 
 
 
@@ -337,6 +402,8 @@ $boletin=MailRelay::getCampaign(5);
 $boletin->send();
 ```
 
+#### Clase CampaignFolder
+Hereda de la clase [RestModel](#clase-restmodel)
 
 
 #### Clase Import
@@ -349,4 +416,11 @@ Devuelve los datos de la importación
 ##### cancel()
 Cancela una importación si está en curso
 
+
+#### Clase MediaFile
+Hereda de la clase [RestModel](#clase-restmodel)
+
+
+#### Clase MediaFolder
+Hereda de la clase [RestModel](#clase-restmodel)
 
