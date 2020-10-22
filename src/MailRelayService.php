@@ -205,9 +205,10 @@ class MailRelayService
 
     /**
      * Añade una carpeta de boletin
+     * Si ya existe con el mismo nombre, la devuelve
      */
 	public function createCampaignFolder($name){
-		return CampaignFolder::create([
+        return CampaignFolder::create([
             "name" => $name
         ]);
         

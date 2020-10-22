@@ -11,5 +11,21 @@ class CampaignFolder extends RestModel
 
       //atributos rellenables en el update o create
       protected $fillable = ["name"];
-  
+
+
+      
+      public static function create(array $values=[]){
+        if(!isset($values["name"])) return null;
+
+        //si ya existe con el mismo nombre la devuelvo
+        $current=self::search(["name_eq"=>$values["name"]]);
+        if($current->isNotEmpty()) return $current->first();
+        
+
+        //si no, la creo llamando al create el RestModel
+        return parent::create($values);
+        
+    }
+
+    
 }
