@@ -35,6 +35,13 @@ Cliente Laravel de la API Rest de MailRelay.
     - [getImports($page=null, $per_page=null)](#getimportspagenull-per_pagenull)
     - [getImport($id)](#getimportid)
     - [createImport($filename, $subscribers, $group_ids=[], $callback=null, $ignore=true)](#createimportfilename-subscribers-group_ids-callbacknull-ignoretrue)
+    - [getMediaFiles($page=null, $per_page=null){](#getmediafilespagenull-per_pagenull)
+    - [getMediaFile($id){](#getmediafileid)
+    - [createMediaFile($filename, $content, $media_folder_id=false){](#createmediafilefilename-content-media_folder_idfalse)
+    - [uploadMediaFile($filename, $uploaded_file, $media_folder_id=0){](#uploadmediafilefilename-uploaded_file-media_folder_id0)
+    - [getMediaFolders(){](#getmediafolders)
+    - [getMediaFolder($id){](#getmediafolderid)
+    - [createMediaFolder($name){](#createmediafoldername)
   - [Clases](#clases)
     - [Clase RestModel](#clase-restmodel)
       - [delete()](#delete)
@@ -248,6 +255,36 @@ MailRelay::createImport("prueba api",[
 ],[13]);
 
 ```
+
+
+
+####  getMediaFiles($page=null, $per_page=null){
+Retorna todas las imagenes  
+  
+####  getMediaFile($id){
+Retorna una imagen
+  
+
+####  createMediaFile($filename, $content, $media_folder_id=false){
+Añade una imagen
+- `$filename`   Nombre de la imagen
+- `$content`    Contenido biario de la imagen (no base64)
+    
+    
+####  uploadMediaFile($filename, $uploaded_file, $media_folder_id=0){
+Añade una imagen a partir de un upload
+  
+####  getMediaFolders(){
+Retorna las carpetas de media
+    
+####  getMediaFolder($id){
+Retorna una carpeta de media
+      
+####  createMediaFolder($name){
+Añade una carpeta de media.
+
+Si ya existe con el mismo nombre, la devuelve
+       
 
 ---
 
