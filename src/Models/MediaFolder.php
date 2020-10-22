@@ -2,18 +2,17 @@
 
 namespace Ajtarragona\MailRelay\Models;
 
-class CampaignFolder extends RestModel
+class MediaFolder extends RestModel
 {
-    protected $model_name="campaign_folders";
+    protected $model_name="media_folders";
 
       // Atributos retornados por el servicio
       protected $attributes = ["id","name","created_at","updated_at"];
 
       //atributos rellenables en el update o create
       protected $fillable = ["name"];
-      
-      protected $dates = ["created_at","updated_at"];
 
+      protected $dates = ["created_at","updated_at"];
 
       
       public static function create(array $values=[]){

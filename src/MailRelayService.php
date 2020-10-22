@@ -7,9 +7,12 @@ use Ajtarragona\MailRelay\Models\CampaignFolder;
 use Ajtarragona\MailRelay\Models\CustomField;
 use Ajtarragona\MailRelay\Models\Group;
 use Ajtarragona\MailRelay\Models\Import;
+use Ajtarragona\MailRelay\Models\MediaFile;
+use Ajtarragona\MailRelay\Models\MediaFolder;
 use Ajtarragona\MailRelay\Models\Sender;
 use Ajtarragona\MailRelay\Traits\IsRestClient;
 use Illuminate\Database\Events\StatementPrepared;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class MailRelayService
@@ -242,6 +245,82 @@ class MailRelayService
     }
 
 
+
+
+    
+     /**
+     * Retorna todas las imagenes
+     */
+	public function getMediaFiles($page=null, $per_page=null){
+        return MediaFile::all($page, $per_page);
+		
+    }
+
+    
+    /**
+     * Retorna una imagen
+     */
+	public function getMediaFile($id){
+        return MediaFile::find($id);
+		
+    }
+
+    
+
+    /**
+     * Añade una imagen
+     */
+	public function createMediaFile($filename, $content, $media_folder_id=false){
+    	return MediaFile::createFromContent($filename, $content, $media_folder_id);
+    }
+
+
+    /**
+     * Añade una imagen de test
+     */
+	public function createTestMediaFile(){
+        $content=Storage::get('bg-censat.jpg');
+        // dd($content);
+    	return $this->createMediaFile("bg-censat.jpg", $content, 1);
+    }
+
+    /**
+     * Añade una imagen a partir de un upload
+     */
+	public function uploadMediaFile($filename, $uploaded_file, $media_folder_id=0){
+    	return MediaFile::createFromUpload($filename, $uploaded_file, $media_folder_id);
+    }
+
+
+
+    /**
+     * Retorna las carpetas de media
+     */
+	public function getMediaFolders(){
+        return MediaFolder::all();
+		
+    }
+
+    /**
+     * Retorna una carpeta de media
+     */
+	public function getMediaFolder($id){
+        return MediaFolder::find($id);
+		
+    }
+
+    
+
+    /**
+     * Añade una carpeta de media
+     * Si ya existe con el mismo nombre, la devuelve
+     */
+	public function createMediaFolder($name){
+        return MediaFolder::create([
+            "name" => $name
+        ]);
+        
+    }
     
 
 }
