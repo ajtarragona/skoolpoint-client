@@ -416,10 +416,12 @@ Hereda de la clase [RestModel](#clase-restmodel)
 
 Métodos:
 ##### send()
-Envía el boletín
+Envía el boletín.
+Retorna el informe de envio (un objeto [SentCampaign](#clase-sentcampaign))
+
 ```php
 $boletin=MailRelay::getCampaign(5);
-$boletin->send();
+$informe=$boletin->send();
 ```
 
 #### Clase SentCampaign

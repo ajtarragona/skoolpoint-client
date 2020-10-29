@@ -17,7 +17,7 @@ class Campaign extends RestModel
 
       /**
        * Envia el boletín
-       * 
+       * Retorna un objeto SentCampaign (el informe de envio)
        */
       public function send($attributes=[]){
          
