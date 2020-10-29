@@ -10,6 +10,7 @@ use Ajtarragona\MailRelay\Models\Import;
 use Ajtarragona\MailRelay\Models\MediaFile;
 use Ajtarragona\MailRelay\Models\MediaFolder;
 use Ajtarragona\MailRelay\Models\Sender;
+use Ajtarragona\MailRelay\Models\SentCampaign;
 use Ajtarragona\MailRelay\Traits\IsRestClient;
 use Illuminate\Database\Events\StatementPrepared;
 use Illuminate\Support\Facades\Storage;
@@ -186,6 +187,24 @@ class MailRelayService
     }
     
 
+
+    
+     /**
+     * Retorna todos los informes de envio de boletines
+     */
+	public function getSentCampaigns($page=null, $per_page=null){
+        return SentCampaign::all($page, $per_page);
+		
+    }
+
+    
+    /**
+     * Retorna un informes de envio de boletin
+     */
+	public function getSentCampaign($id){
+        return SentCampaign::find($id);
+		
+    }
 
      /**
      * Retorna todas las carpetas de boletin

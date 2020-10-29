@@ -34,8 +34,9 @@ class Campaign extends RestModel
             $ret=$this->call('POST', $this->model_name.'/'.$this->id.'/send_all', [
                "json" =>$args 
             ]);
-   
-            return self::cast($ret);
+            // dd($ret);
+
+            return SentCampaign::cast($ret);
          }
 
          return false;

@@ -33,6 +33,9 @@ Cliente Laravel de la API Rest de MailRelay.
       - [getCampaigns($page=null, $per_page=null)](#getcampaignspagenull-per_pagenull)
       - [getCampaign($id)](#getcampaignid)
       - [createCampaign($subject, $body, $sender_id, $group_ids=[], $target="groups", $attributes=[])](#createcampaignsubject-body-sender_id-group_ids-targetgroups-attributes)
+    - [Sent Campaigns (Informes de envio de Boletines)](#sent-campaigns-informes-de-envio-de-boletines)
+      - [getSentCampaigns($page=null, $per_page=null)](#getsentcampaignspagenull-per_pagenull)
+      - [getSentCampaign($id)](#getsentcampaignid)
     - [Campaign Folders](#campaign-folders)
       - [getCampaignFolders($page=null, $per_page=null)](#getcampaignfolderspagenull-per_pagenull)
       - [getCampaignFolder($id)](#getcampaignfolderid)
@@ -60,6 +63,11 @@ Cliente Laravel de la API Rest de MailRelay.
     - [Clase Group](#clase-group)
     - [Clase Campaign](#clase-campaign)
       - [send()](#send)
+    - [Clase SentCampaign](#clase-sentcampaign)
+      - [clicks()](#clicks)
+      - [impressions()](#impressions)
+      - [sent_emails()](#sent_emails)
+      - [unsubscribe_events()](#unsubscribe_events)
     - [Clase CampaignFolder](#clase-campaignfolder)
     - [Clase Import](#clase-import)
       - [data()](#data)
@@ -243,6 +251,18 @@ Añade un boletin
 
 
 
+#### Sent Campaigns (Informes de envio de Boletines)
+Un informe de envio de boletín es un objeto de la clase [SentCampaign](#clase-sentcampaign)
+
+
+##### getSentCampaigns($page=null, $per_page=null)
+Retorna todos los informes de envio de boletín.
+
+
+##### getSentCampaign($id)
+Retorna un informe de envio de boletín
+
+
 #### Campaign Folders
 Una carpeta es un objeto de la clase [CampaignFolder](#clase-campaignfolder)
 
@@ -401,6 +421,19 @@ Envía el boletín
 $boletin=MailRelay::getCampaign(5);
 $boletin->send();
 ```
+
+#### Clase SentCampaign
+Hereda de la clase [RestModel](#clase-restmodel)
+
+Métodos:
+##### clicks()
+Retona els clicks
+##### impressions()
+Retona les impressions
+##### sent_emails()
+Retona els emails enviats
+##### unsubscribe_events()
+Retona les desubscripcions
 
 #### Clase CampaignFolder
 Hereda de la clase [RestModel](#clase-restmodel)
