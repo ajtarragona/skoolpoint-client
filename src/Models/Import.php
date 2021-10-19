@@ -1,6 +1,7 @@
 <?php
 
 namespace Ajtarragona\MailRelay\Models;
+use Illuminate\Support\Arr;
 
 class Import extends RestModel
 {
@@ -46,7 +47,7 @@ class Import extends RestModel
         if($subscribers && is_array($subscribers)){
           // dd($subscribers);
           $content = base64_encode(array_to_csv($subscribers,';'));
-          $keys=array_keys($subscribers[0]);
+          $keys=array_keys(Arr::first($subscribers));
           // dump($content);
           
           $import_plan=[];
