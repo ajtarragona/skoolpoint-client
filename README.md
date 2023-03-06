@@ -3,6 +3,7 @@ Cliente Laravel de la API Rest de MailRelay.
 
 *Credits*: Ajuntament de Tarragona.
 
+[![Latest Stable Version](http://poser.pugx.org/ajtarragona/mailrelay-client/v)](https://packagist.org/packages/ajtarragona/mailrelay-client) [![Total Downloads](http://poser.pugx.org/ajtarragona/mailrelay-client/downloads)](https://packagist.org/packages/ajtarragona/mailrelay-client) [![Latest Unstable Version](http://poser.pugx.org/ajtarragona/mailrelay-client/v/unstable)](https://packagist.org/packages/ajtarragona/mailrelay-client) [![License](http://poser.pugx.org/ajtarragona/mailrelay-client/license)](https://packagist.org/packages/ajtarragona/mailrelay-client) [![PHP Version Require](http://poser.pugx.org/ajtarragona/mailrelay-client/require/php)](https://packagist.org/packages/ajtarragona/mailrelay-client)
 
 > Check the MailRelay API docs here: [https://tarragona1.ipzmarketing.com/api-documentation/](https://tarragona1.ipzmarketing.com/api-documentation/)
 
