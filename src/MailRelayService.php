@@ -176,13 +176,16 @@ class MailRelayService
      * Añade un boletin
      */
 	public function createCampaign($subject, $body, $sender_id, $group_ids=[], $target="groups", $attributes=[]){
-		return Campaign::create(array_merge([
+        $attrs=array_merge([
             "subject" => $subject,
             "html" => $body,
             "sender_id" => $sender_id,
             "group_ids" => $group_ids,
             "target" => $target,
-        ], $attributes));
+        ], $attributes);
+        // dd($attrs);
+
+		return Campaign::create($attrs);
         
     }
     
