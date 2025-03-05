@@ -3,8 +3,6 @@ Cliente Laravel de la API Rest de Skoolpoint.
 
 *Credits*: Ajuntament de Tarragona.
 
-[![Latest Stable Version](http://poser.pugx.org/ajtarragona/skoolpoint-client/v)](https://packagist.org/packages/ajtarragona/skoolpoint-client) [![Total Downloads](http://poser.pugx.org/ajtarragona/skoolpoint-client/downloads)](https://packagist.org/packages/ajtarragona/skoolpoint-client) [![Latest Unstable Version](http://poser.pugx.org/ajtarragona/skoolpoint-client/v/unstable)](https://packagist.org/packages/ajtarragona/skoolpoint-client) [![License](http://poser.pugx.org/ajtarragona/skoolpoint-client/license)](https://packagist.org/packages/ajtarragona/skoolpoint-client) [![PHP Version Require](http://poser.pugx.org/ajtarragona/skoolpoint-client/require/php)](https://packagist.org/packages/ajtarragona/skoolpoint-client)
-
 > Check the Skoolpoint API docs here: [https://preinscripcions.skoolpoint.com/api/](https://preinscripcions.skoolpoint.com/api/)
 
 
