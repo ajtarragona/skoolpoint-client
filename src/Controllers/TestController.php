@@ -1,9 +1,8 @@
 <?php
 
-namespace Ajtarragona\MailRelay\Controllers; 
+namespace Ajtarragona\Skoolpoint\Controllers; 
 
 use Illuminate\Routing\Controller;
-use MailRelay; //facade
 
 class TestController extends Controller
 {

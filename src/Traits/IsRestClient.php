@@ -1,9 +1,9 @@
 <?php
 
-namespace Ajtarragona\MailRelay\Traits;
+namespace Ajtarragona\Skoolpoint\Traits;
 
-use Ajtarragona\MailRelay\Exceptions\MailRelayAuthException;
-use Ajtarragona\MailRelay\Exceptions\MailRelayConnectionException;
+use Ajtarragona\Skoolpoint\Exceptions\SkoolpointAuthException;
+use Ajtarragona\Skoolpoint\Exceptions\SkoolpointConnectionException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ConnectException;
@@ -23,7 +23,7 @@ trait IsRestClient
 
 
 	public function __construct($options=array()) { 
-		$opts=config('mailrelay');
+		$opts=config('skoolpoint');
 		if($options) $opts=array_merge($opts,$options);
 		$this->options= json_decode(json_encode($opts), FALSE);
         // dump($this->options);
@@ -38,7 +38,7 @@ trait IsRestClient
 		if(!$this->client){
 
 			
-			if($this->debug) Log::debug("MailRelay: Connecting to API:" .$this->api_url);
+			if($this->debug) Log::debug("Skoolpoint: Connecting to API:" .$this->api_url);
 
 
 			$this->client = new Client([
@@ -71,8 +71,8 @@ trait IsRestClient
 
 		
 		if($this->debug){
-			Log::debug("MailRelay: Calling $method to url:" .$this->api_url."".$url);
-			Log::debug("MailRelay: Options:");
+			Log::debug("Skoolpoint: Calling $method to url:" .$this->api_url."".$url);
+			Log::debug("Skoolpoint: Options:");
 			Log::debug($args);
 		}
 		
@@ -117,7 +117,7 @@ trait IsRestClient
 
 	private function parseException($e){
 		if($this->debug){
-			Log::error("MailRelay API error");
+			Log::error("Skoolpoint API error");
 			Log::error($e->getMessage());
 		}
 		// dd($e->hasResponse());
@@ -129,13 +129,13 @@ trait IsRestClient
 					return null; 
 				case 401:
 					//Auth exception
-					throw new MailRelayAuthException(__("Mailrelay exception: The API key wasn't sent or is invalid")); break;
+					throw new SkoolpointAuthException(__("Skoolpoint exception: The API key wasn't sent or is invalid")); break;
 				
 				default: break;
 				
 		   }
 		}else{
-			throw new MailRelayConnectionException(__("Mailrelay connection exception"));
+			throw new SkoolpointConnectionException(__("Skoolpoint connection exception"));
 				
 		}
 		

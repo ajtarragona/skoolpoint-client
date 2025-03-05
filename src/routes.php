@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['prefix' => 'ajtarragona/mailrelay','middleware' => ['web']	], function () {
+Route::group(['prefix' => 'ajtarragona/skoolpoint','middleware' => ['web']	], function () {
 	
 	
 	

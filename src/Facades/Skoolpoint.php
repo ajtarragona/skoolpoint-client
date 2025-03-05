@@ -1,16 +1,16 @@
 <?php
 
-namespace Ajtarragona\MailRelay\Facades; 
+namespace Ajtarragona\Skoolpoint\Facades; 
 
 use Illuminate\Support\Facades\Facade;
 
-class MailRelay extends Facade
+class Skoolpoint extends Facade
 {
     /**
      * {@inheritdoc}
      */
     protected static function getFacadeAccessor()
     {
-        return 'mailrelay';
+        return 'skoolpoint';
     }
 }

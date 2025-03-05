@@ -1,12 +1,12 @@
 <?php
 
-namespace Ajtarragona\MailRelay;
+namespace Ajtarragona\Skoolpoint;
 
 use Illuminate\Support\ServiceProvider;
 //use Illuminate\Support\Facades\Blade;
 //use Illuminate\Support\Facades\Schema;
 
-class MailRelayServiceProvider extends ServiceProvider
+class SkoolpointServiceProvider extends ServiceProvider
 {
     
     /**
@@ -26,8 +26,8 @@ class MailRelayServiceProvider extends ServiceProvider
         //publico configuracion de la api
         
         $this->publishes([
-            __DIR__.'/Config/mailrelay-api.php' => config_path('mailrelay.php'),
-        ], 'ajtarragona-mailrelay-config');
+            __DIR__.'/Config/skoolpoint-api.php' => config_path('skoolpoint.php'),
+        ], 'ajtarragona-skoolpoint-config');
 
         
 
@@ -47,8 +47,8 @@ class MailRelayServiceProvider extends ServiceProvider
     {
        	
         //defino facades
-        $this->app->bind('mailrelay', function(){
-            return new \Ajtarragona\MailRelay\MailRelayService;
+        $this->app->bind('skoolpoint', function(){
+            return new \Ajtarragona\Skoolpoint\SkoolpointService;
         });
         
 
@@ -59,10 +59,10 @@ class MailRelayServiceProvider extends ServiceProvider
 
 
         
-        if (file_exists(config_path('mailrelay.php'))) {
-            $this->mergeConfigFrom(config_path('mailrelay.php'), 'mailrelay');
+        if (file_exists(config_path('skoolpoint.php'))) {
+            $this->mergeConfigFrom(config_path('skoolpoint.php'), 'skoolpoint');
         } else {
-            $this->mergeConfigFrom(__DIR__.'/Config/mailrelay-api.php', 'mailrelay');
+            $this->mergeConfigFrom(__DIR__.'/Config/skoolpoint-api.php', 'skoolpoint');
         }
         
     }

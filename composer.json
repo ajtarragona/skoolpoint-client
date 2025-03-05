@@ -1,7 +1,7 @@
 {
-    "name": "ajtarragona/mailrelay-client",
-    "description": "Client Laravel de la API Rest de MailRelay",
-    "keywords" : ["laravel5","laravel"],
+    "name": "ajtarragona/skoolpoint-client",
+    "description": "Client Laravel de la API Rest de Skoolpoint",
+    "keywords" : ["laravel"],
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -18,17 +18,17 @@
     },
     "autoload": {
         "psr-4": {
-            "Ajtarragona\\MailRelay\\": "./src"
+            "Ajtarragona\\Skoolpoint\\": "./src"
         }
     },
     
     "extra": {
         "laravel": {
             "providers": [
-                "Ajtarragona\\MailRelay\\MailRelayServiceProvider"
+                "Ajtarragona\\Skoolpoint\\SkoolpointServiceProvider"
             ],
             "aliases": {
-                "MailRelay" : "Ajtarragona\\MailRelay\\Facades\\MailRelay"
+                "Skoolpoint" : "Ajtarragona\\Skoolpoint\\Facades\\Skoolpoint"
             }
         }
     }

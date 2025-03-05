@@ -1,8 +1,8 @@
 <?php
 
-namespace Ajtarragona\MailRelay\Models;
+namespace Ajtarragona\Skoolpoint\Models;
 
-use Ajtarragona\MailRelay\Traits\IsRestClient;
+use Ajtarragona\Skoopoint\Traits\IsRestClient;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 
@@ -51,7 +51,7 @@ class RestModel
 
 
     
-    private function prepareArguments(array $values=null){
+    private function prepareArguments($values=null){
         $ret=[];
         if($values){
             //filtro solo los valores que esten definidos como atributos
