@@ -17,7 +17,9 @@ trait IsRestClient
 	protected $client;
 	protected $options;
 	protected $api_url;
-	protected $api_key;
+	protected $api_user;
+	protected $api_password;
+	protected $api_token;
 	protected $debug;
 	
 
@@ -29,7 +31,10 @@ trait IsRestClient
         // dump($this->options);
 		$this->debug = $this->options->debug;
 		$this->api_url = rtrim($this->options->api_url,"/")."/"; //le quito la barra final si la tiene y se la vuelvo a poner. Asi me aseguro que siempre acaba en barra.
-		$this->api_key = $this->options->api_key;
+
+		$this->api_user = $this->options->api_user;
+		$this->api_password = $this->options->api_password;
+		$this->api_token = $this->options->api_token;
         
 	}
 
@@ -40,10 +45,40 @@ trait IsRestClient
 			
 			if($this->debug) Log::debug("Skoolpoint: Connecting to API:" .$this->api_url);
 
-
+			
 			$this->client = new Client([
 				'base_uri' => $this->api_url
 			]);
+
+			if(!$this->api_token){
+				//recupera token si no lo tiene la config
+				
+				try{
+	
+					if($this->debug){
+						Log::debug("Skoolpoint: Login user {$this->api_user}");
+					}
+					
+					$response = $this->client->request('POST', "token", [
+						'form_params' => [
+							"username"=> $this->api_user,
+							"password"=> $this->api_password,
+						],
+						'headers' => [
+							'Accept'     => 'application/json'
+						]
+					]);
+					if($this->debug) Log::debug("Skoolpoint: Login user RESPONSE:\n". $response->getBody() );
+	
+					$this->api_token = (string) $response->getBody();
+
+					// dd($this->token);
+				}catch(Exception $e){
+					$this->parseException($e);
+				}
+				
+			}
+
 		
 		}
 	}
@@ -58,12 +93,12 @@ trait IsRestClient
 		//forzar header json
 		if(isset($args["headers"])){
 			$args["headers"]=array_merge($args["headers"],[
-				'X-AUTH-TOKEN' => $this->api_key,
+				'X-Auth' => $this->api_token,
 				'Accept'     => 'application/json'
 			]);
 		}else{
 			$args["headers"]=[
-				'X-AUTH-TOKEN' => $this->api_key,
+				'X-Auth' => $this->api_token,
 				'Accept'     => 'application/json'
 			];
 		}
@@ -82,6 +117,7 @@ trait IsRestClient
 		$ret=false;
 
 		try{
+			// dd($args);
 			$response = $this->client->request($method, $url, $args);
 			if($this->debug){
 				Log::debug("STATUS:".$response->getStatusCode());

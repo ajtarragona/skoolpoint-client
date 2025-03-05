@@ -24,9 +24,12 @@ Puedes configurar el paquete a través del archivo `.env` de tu aplicación Lara
 ```bash
 SKOOLPOINT_API_URL
 SKOOLPOINT_API_USER
+SKOOLPOINT_API_TOKEN
 SKOOLPOINT_API_PASSWORD
 SKOOLPOINT_DEBUG
 ```
+
+Si no definimos el API_TOKEN, se utilizará el usuario/password en cada llamada a la API.
 
 Alternativamente, puedes publicar en archivo de configuración a través del comando:
 
@@ -89,20 +92,73 @@ public  function  test(){
 
 ### Funciones
 
-#### Senders (Remitentes)
-Un remitente es un objeto de la clase [Sender](#clase-sender)
 
-##### getSenders($page=null, $per_page=null)
-Retorna todos los remitentes. 
+##### getCenters($options=[])
+Retorna todos los Centros. 
+Options és un array con los posibles valores:
+- `pagina`: numero de pàgina (opcional)
+- `limit`: registres per pàgina (opcional)
 
-- `$page`: numero de pàgina (opcional)
-- `$per_page`: registres per pàgina (opcional)
-	
-    
----
 
-### Clases
+##### getCenter($codi_centre)
+Retorna un centro a partir de su código. 
 
-#### Clase Center
-Los objetos que devuelve la API se devuelven como instancias de la clase `RestModel`.
-Sobre estos objetos podemos invocar los siguientes métodos:
+##### searchCenters($term, $options=[])
+Retorna centros que contengan el texto `$term`. 
+
+##### getOfertaCenter($codi_centre)
+Retorna la oferta de un centro.
+
+##### getSolicituds($codi_centre, $state_name, $options=[])
+Retorna solicitudes de un centro en un estado pasado
+`state_name`puede tener los valores:
+- registrades
+- validades
+- pendents/reclamacioBarem
+- pendents/reclamacioAssignacio
+- pendents/assignacio
+- pendents/matricula
+- llistaEspera
+- assignades
+- noAssignades
+- tancades
+- matriculades
+
+##### getSolicitudsRegistrades($codi_centre, $options=[])
+Retorna solicitudes de un centro Registradas
+Options és un array con los posibles valores:
+- `pagina`: numero de pàgina (opcional)
+- `limit`: registres per pàgina (opcional)
+- `tutors`: boolea (opcional)
+- `nese`: boolea (opcional)
+
+
+##### getSolicitudsValidades($codi_centre, $options=[])
+Retorna solicitudes de un centro Validadas
+
+##### getSolicitudsPendentsReclamacioBarem($codi_centre, $options=[])
+Retorna solicitudes de un centro Pendientes de reclamación baremo
+
+##### getSolicitudsPendentsReclamacioAssignacio($codi_centre, $options=[])
+Retorna solicitudes de un centro Pendientes de Reclamación asignación
+
+##### getSolicitudsPendentsAssignacio($codi_centre, $options=[])
+Retorna solicitudes de un centro Pendientes de asignación
+
+##### getSolicitudsPendentsMatricula($codi_centre, $options=[])
+Retorna solicitudes de un centro Pendientes de matricula
+
+##### getSolicitudsLlistaEspera($codi_centre, $options=[])
+Retorna solicitudes de un centro en Lista de espera
+
+##### getSolicitudsAssignades($codi_centre, $options=[])
+Retorna solicitudes de un centro Asignadas
+
+##### getSolicitudsNoAssignades($codi_centre, $options=[])
+Retorna solicitudes de un centro No asignadas
+
+##### getSolicitudsTancades($codi_centre, $options=[])
+Retorna solicitudes de un centro Cerradas
+
+##### getSolicitudsMatriculades($codi_centre, $options=[])
+Retorna solicitudes de un centro Matriculadas

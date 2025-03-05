@@ -2,7 +2,7 @@
 
 namespace Ajtarragona\Skoolpoint\Models;
 
-use Ajtarragona\Skoopoint\Traits\IsRestClient;
+use Ajtarragona\Skoolpoint\Traits\IsRestClient;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 
@@ -69,8 +69,8 @@ class RestModel
         $model=new static;
         $ret=$model->call('GET',$model->model_name,[
             'form_params' => [
-                'page' => $page ,
-                'per_page' => $per_page
+                'pagina' => $page ,
+                'limit' => $per_page
             ]
         ]);
 		return self::castAll($ret);
@@ -86,8 +86,8 @@ class RestModel
         $ret=$model->call('GET',$model->model_name,[
             'form_params' => [
                 'q' => $parameters,
-                'page' => $page ,
-                'per_page' => $per_page
+                'pagina' => $page ,
+                'limit' => $per_page
             ]
         ]);
 		return self::castAll($ret);
@@ -97,6 +97,7 @@ class RestModel
     public static function find($id){
         $model=new static;
         $ret=$model->call('GET',$model->model_name.'/'.$id);
+        dd($ret);
 		return self::cast($ret);
     }
 
