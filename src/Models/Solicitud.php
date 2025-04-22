@@ -1,6 +1,8 @@
 <?php
 
 namespace Ajtarragona\Skoolpoint\Models;
+
+use Exception;
 use Skoolpoint;
 
 
@@ -85,5 +87,128 @@ class Solicitud extends RestModel
       return self::getByState($codi, self::$ESTAT_MATRICULADES, $options);
     }
 
+    
+    public static function createSolicitud($args){
+      $model=new static;
+
+      $args = array_replace_recursive([
+        "alumne" => [
+          "nom" => "",
+          "cognom1" => "",
+          "cognom2" => "",
+          "targetaSanitaria" => "",
+          "dataNaixement" => "",
+          "nacionalitat" => 0,
+          "sexe" => 1,
+          "nese" => "X"
+        ],
+        "contacte" => [
+          "telefon1" => 0,
+          "telefon2" => 0,
+          "email" => "",
+          "adreca" => [
+            "tipusVia" => 0,
+            "via" => "",
+            "num" => 0,
+            "bloc" => "",
+            "escala" => "",
+            "planta" => "",
+            "porta" => "",
+            "municipi" => 0,
+            "codiPostal" => 0
+          ]
+        ],
+        "tutor1" => [
+          "nom" => "",
+          "cognom1" => "",
+          "cognom2" => "",
+          "tipusDocument" => 1,
+          "document" => ""
+        ],
+        "tutor2" => [],
+        "peticio" => [
+          "nivell" => 1,
+          "centres" => [0]
+        ],
+        "barem" => [
+          "domicili" => false,
+          "domiciliRaoSocial" => false,
+          "domiciliAdreca" => false,
+          "germans" => false,
+          "situacioFamiliar" => false,
+          "discapacitat" => false,
+          "familiaNombrosa" => false,
+          "familiaMonoparental" => false,
+          "mesUnFill" => false,
+          "acolliment" => false,
+          "victima" => false,
+          "mateixCentre10h" => false,
+          "mateixCentre" => false,
+          "mateixCentreTutor1" => [
+            "raoSocial" => "",
+            "adreca" => ""
+          ],
+          "mateixCentreTutor2" => [
+            "raoSocial" => "",
+            "adreca" => ""
+          ]
+        ],
+        "consentiment" => [
+          "rgpd" => false,
+          "comercial" => false
+        ]
+      ], $args );
+
+      // dd($args);
       
+      $ret=$model->call('POST',"sollicitud/afegir", [ 'body' => json_encode($args) ]);
+      
+      return $ret;
+      
+  }
+
+  public static function annexarDocument($clau, $solicitud, $titol, $filename, $contingut ){
+    $model=new static;
+    return $model->call('POST',"sollicitud/document", [ 
+        'multipart' => [
+          [
+            'name' => 'clau',
+            'contents' =>  $clau
+          ],
+          [
+            'name' => 'sollicitud',
+            'contents' =>  $solicitud
+          ],
+          [
+            'name' => 'titol',
+            'contents' => $titol
+          ],
+          [
+            'name' => 'fitxer',
+            'contents' => $contingut,
+            'filename' => $filename,
+          ]
+      ]
+    ]);
+      
+  }
+
+
+  public static function getSolicitud($solicitud,$clau ){
+  
+    $model=new static;
+    
+      $ret= $model->call('GET',"sollicitud/".$solicitud."/".$clau);
+      return  $ret;
+    
+  }
+  
+  public static function getDocument($solicitud,$clau,$hash){
+  
+    $model=new static;
+    return $model->call('GET',"sollicitud/".$solicitud."/".$clau."/document/".$hash);
+  }
+
+  
+  
 }

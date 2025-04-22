@@ -97,7 +97,7 @@ class RestModel
     public static function find($id){
         $model=new static;
         $ret=$model->call('GET',$model->model_name.'/'.$id);
-        dd($ret);
+        // dd($ret);6
 		return self::cast($ret);
     }
 

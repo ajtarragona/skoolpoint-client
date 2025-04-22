@@ -88,4 +88,33 @@ class SkoolpointService
         return Solicitud::getMatriculades($codi_centre, $options);
     }
 
+    public function createSolicitud($args=[]){
+
+        return Solicitud::createSolicitud($args);
+    }
+
+    public function annexarDocuments($clau,$solicitud, $arxius=[]){
+        $ret=[];
+        foreach($arxius as $arxiu){
+            $ret[]=$this->annexarDocument($clau,$solicitud, $arxiu["titol"], $arxiu["fitxer"]["name"],$arxiu["fitxer"]["content"]);
+        }
+        return $ret;
+    }
+
+    public function annexarDocument($clau,$solicitud, $titol, $filename, $contingut){
+
+        return Solicitud::annexarDocument($clau,$solicitud, $titol, $filename, $contingut);
+    }
+
+    public function getSolicitud($solicitud, $clau){
+
+        return Solicitud::getSolicitud($solicitud, $clau);
+    }
+    public function getDocument($solicitud, $clau, $hash){
+
+        return Solicitud::getDocument($solicitud, $clau, $hash);
+    }
+
+
+
 }

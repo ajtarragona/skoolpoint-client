@@ -125,25 +125,25 @@ trait IsRestClient
 				Log::debug($response->getBody());
 			}
 
-			switch($response->getStatusCode()){
-				case 200:
-				case 201:
-				case 204:
+			// switch($response->getStatusCode()){
+			// 	case 200:
+			// 	case 201:
+			// 	case 204:
 					$ret = (string) $response->getBody();
-					
+					// dd($ret);
 					if(isJson($ret)){
 						$ret=json_decode($ret);
 						
 					}
 					
 
-					break;
-				default: break;
-			}
+			// 		break;
+			// 	default: break;
+			// }
 
 			return $ret;
 		} catch (RequestException | ConnectException | ClientException $e) {
-			
+			// dd($e);
 			return $this->parseException($e);
 		   
 		}
@@ -159,17 +159,28 @@ trait IsRestClient
 		// dd($e->hasResponse());
 		if ($e->hasResponse()) {
 			$status=$e->getResponse()->getStatusCode();
-		   switch($status){
-				   case 404:
-					//si no se encuentra, soporto la excepcion y devuelvo null
-					return null; 
-				case 401:
-					//Auth exception
-					throw new SkoolpointAuthException(__("Skoolpoint exception: The API key wasn't sent or is invalid")); break;
+			
+			$ret = (string) $e->getResponse()->getBody();
+			
+			if(isJson($ret)){
+				$ret=json_decode($ret);
 				
-				default: break;
+			}
+			$ret->status=$status;
+			return $ret;
+		//    switch($status){
+		// 		case 403:
+		// 		case 404:
+		// 			//soporto la excepcion y devuelvo null
+		// 			// dd($ret);
+		// 			return $ret; 
+		// 		case 401:
+		// 			//Auth exception
+		// 			throw new SkoolpointAuthException(__("Skoolpoint exception: The API key wasn't sent or is invalid")); break;
 				
-		   }
+		// 		default: break;
+				
+		//    }
 		}else{
 			throw new SkoolpointConnectionException(__("Skoolpoint connection exception"));
 				
