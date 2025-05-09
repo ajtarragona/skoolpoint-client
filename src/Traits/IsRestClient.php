@@ -43,7 +43,7 @@ trait IsRestClient
 		if(!$this->client){
 
 			
-			if($this->debug) Log::debug("Skoolpoint: Connecting to API: " .$this->api_url);
+			if($this->debug) Log::debug("[Skoolpoint] Connecting to API: " .$this->api_url);
 
 			
 			$this->client = new Client([
@@ -56,7 +56,7 @@ trait IsRestClient
 				try{
 	
 					if($this->debug){
-						Log::debug("Skoolpoint: Login user {$this->api_user}");
+						Log::debug("[Skoolpoint] Login user {$this->api_user}");
 					}
 					
 					$response = $this->client->request('POST', "token", [
@@ -68,7 +68,7 @@ trait IsRestClient
 							'Accept'     => 'application/json'
 						]
 					]);
-					if($this->debug) Log::debug("Skoolpoint: Login user RESPONSE:\n". json_pretty($response->getBody()) );
+					if($this->debug) Log::debug("[Skoolpoint] Login user RESPONSE\n". json_pretty($response->getBody()) );
 	
 					$this->api_token = (string) $response->getBody();
 
@@ -106,7 +106,7 @@ trait IsRestClient
 
 		
 		if($this->debug){
-			Log::debug("Skoolpoint: Calling $method to url:" .$this->api_url."".$url ." with args:\n". json_pretty($args));
+			Log::debug("[Skoolpoint] Calling $method to url:" .$this->api_url."".$url ." with args:\n". json_pretty($args));
 		}
 		
 
@@ -128,12 +128,12 @@ trait IsRestClient
 					if(isJson($ret)){
 						$ret=json_decode($ret);
 						if($this->debug){
-							Log::debug("Skoolpoint: Response  ".$response->getStatusCode() .":\n" .json_pretty($response->getBody()));
+							Log::debug("[Skoolpoint] Response  ".$response->getStatusCode() .":\n" .json_pretty($response->getBody()));
 						}
 						
 					}else{
 						if($this->debug){
-							Log::debug("Skoolpoint: Response  ".$response->getStatusCode() .":\n" .$response->getBody());
+							Log::debug("[Skoolpoint] Response  ".$response->getStatusCode() .":\n" .$response->getBody());
 						}
 					}
 					
@@ -154,7 +154,7 @@ trait IsRestClient
 
 	private function parseException($e){
 		if($this->debug){
-			Log::error("Skoolpoint: API error \n" .  $e->getMessage());
+			Log::error("[Skoolpoint] API error \n" .  $e->getMessage());
 		}
 		// dd($e->hasResponse());
 		if ($e->hasResponse()) {
